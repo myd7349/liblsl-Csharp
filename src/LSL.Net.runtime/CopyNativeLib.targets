@@ -1,51 +1,15 @@
 <Project>
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-    <OSName>linux</OSName>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm'">arm</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">arm64</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">x64</OSArch>
-    <NativeLibBaseDir>lib</NativeLibBaseDir>
-    <NativeLibPrefix>lib</NativeLibPrefix>
-    <NativeLibExt>so</NativeLibExt>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-    <OSName>osx</OSName>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">arm64</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">x64</OSArch>
-    <NativeLibBaseDir>lib</NativeLibBaseDir>
-    <NativeLibPrefix>lib</NativeLibPrefix>
-    <NativeLibExt>dylib</NativeLibExt>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-    <OSName>win</OSName>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm'">arm</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">arm64</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">x64</OSArch>
-    <OSArch Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X86'">x86</OSArch>
-    <NativeLibBaseDir>bin</NativeLibBaseDir>
-    <NativeLibPrefix></NativeLibPrefix>
-    <NativeLibExt>dll</NativeLibExt>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NativeLibFile>$(NativeLibPrefix)lsl.$(NativeLibExt)</NativeLibFile>
-  </PropertyGroup>
-
   <Target Name="CopyNativeLib" AfterTargets="PostBuildEvent">
     <ItemGroup>
-      <NativeLibPath Include="$(MSBuildThisFileDirectory)$(OSName)-$(OSArch)/$(BaseIntermediateOutputPath)**/$(NativeLibFile)" />
-      <None Include="@(NativeLibPath)">
+      <None Include="$(MSBuildThisFileDirectory)win-x64/$(BaseIntermediateOutputPath)**/lsl.dll"
+            Link="runtimes/win-x64/native/lsl.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+
+      <None Include="$(MSBuildThisFileDirectory)win-x86/$(BaseIntermediateOutputPath)**/lsl.dll"
+            Link="runtimes/win-x64/native/lsl.dll">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
-
-    <Message Text="Copying lsl native lib: @(NativeLibPath) -> $(OutDir)$(NativeLibFile)"
-             Importance="High" />
-
-    <Copy SourceFiles="@(NativeLibPath)" 
-          DestinationFolder="$(OutDir)" 
-          SkipUnchangedFiles="true" />
   </Target>
 </Project>
