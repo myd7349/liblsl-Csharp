@@ -95,6 +95,11 @@ namespace LSL
         public static int library_version() { return dll.lsl_library_version(); }
 
         /**
+        * Get a string containing library information.
+        */
+        public static string library_info() { return Marshal.PtrToStringAnsi(dll.lsl_library_info()); }
+
+        /**
         * Obtain a local system time stamp in seconds. The resolution is better than a millisecond.
         * This reading can be used to assign time stamps to samples as they are being acquired. 
         * If the "age" of a sample is known at a particular time (e.g., from USB transmission 
@@ -901,6 +906,9 @@ namespace LSL
 
         [DllImport(libname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
         public static extern int lsl_library_version();
+
+        [DllImport(libname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
+        public static extern IntPtr lsl_library_info();
 
         [DllImport(libname, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, ExactSpelling = true)]
         public static extern double lsl_local_clock();

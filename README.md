@@ -1,6 +1,6 @@
-# C# bindings
+# LSL.Net
 
-The is the C# interface to the lab streaming layer. To use it, you need to include the file LSL.cs in your project, and make sure that the appropriate lsl library (e.g. lsl.dll) is findable (e.g., in your application's root directory or in a system path). If LSL.cs fails to find the lsl shared library for your target platform, edit LSL.cs and update the libname line with the library name for your target platform. As of liblsl 1.14, this should be the same for all targets: `const string libname = "lsl";`
+LSL.Net is a cross-platform C# binding of [Lab Streaming Layer](https://github.com/sccn/labstreaminglayer).
 
 ## Using Visual Studio 2019
 
